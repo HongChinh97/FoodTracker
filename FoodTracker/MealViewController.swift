@@ -40,6 +40,7 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
             ratingControl.rating = meal.rating
         }
 
+        //cập nhật lại nút save
         updateSaveButtonState()
     }
 
@@ -52,7 +53,8 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         textField.resignFirstResponder()
         return true
     }
-    //lấy văn bản và thay thế giá trị của nhãn
+    
+    // vo hieu hoa nut save khi khong nhap ten
     func textFieldDidEndEditing(_ textField: UITextField) {
         saveButton.isEnabled = false
         updateSaveButtonState()
@@ -110,6 +112,7 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         dismiss(animated: true, completion: nil)
         
     }
+    //khi không nhâp gì trong nameTextField thì nút save sẽ bị mờ đi không chọn được
     private func updateSaveButtonState() {
         let text = nameTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty

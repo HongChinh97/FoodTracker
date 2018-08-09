@@ -9,26 +9,37 @@
 import UIKit
 import os.log
 
-class MealTableViewController: UITableViewController {
-
+class MealTableViewController: UITableViewController, UISearchResultsUpdating {
+    
+    
+    
     var meals = [Meal]()
-    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? MealViewController, let meal = sourceViewController.meal {
-            
-            if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                // cap nhat bua an hien co
-                meals[selectedIndexPath.row] = meal
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-            } else {
-                let newIndexPath = IndexPath(row: meals.count, section: 0)
-                
-                meals.append(meal)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
-            
-            saveMeals()
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredData = [Meal]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+        //Sử dụng mục nút chỉnh sửa do bộ điều khiển xem bảng cung cấp.
+        navigationItem.leftBarButtonItem = editButtonItem
+        
+        if let savedMeals = loadMeals() {
+            meals += savedMeals
         }
+        else {
+            loadSampleMeals()
+        }
+        filteredData = meals
+        
     }
+    
     
     private func loadSampleMeals() {
         let photo1 = UIImage(named: "meal1")
@@ -46,20 +57,6 @@ class MealTableViewController: UITableViewController {
         meals += [meal1, meal2, meal3]
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //Sử dụng mục nút chỉnh sửa do bộ điều khiển xem bảng cung cấp.
-        navigationItem.leftBarButtonItem = editButtonItem
-        
-        if let savedMeals = loadMeals() {
-            meals += savedMeals
-        }
-        else {
-            loadSampleMeals()
-        }
-    
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -75,7 +72,7 @@ class MealTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return meals.count
+        return filteredData.count
     }
 
     
@@ -88,7 +85,7 @@ class MealTableViewController: UITableViewController {
         }
 
         // Configure the cell...
-        let meal = meals[indexPath.row]
+        let meal = filteredData[indexPath.row]
         cell.nameLabel.text = meal.name
         cell.photoImageView.image = meal.photo
         cell.ratingControl.rating = meal.rating
@@ -97,32 +94,23 @@ class MealTableViewController: UITableViewController {
         return cell
     }
     
-
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return}
+        filteredData = searchText.isEmpty ? (meals) : (meals.filter({(meals: Meal) -> Bool in return meals.name.lowercased().contains(searchText.lowercased())
+            
+        }))
+        tableView.reloadData()
     }
-
-
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            meals.remove(at: indexPath.row)
-            saveMeals()
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-
+    
+    
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
+        //xem xet gia tri va so sanh de su dung lenh chuyen doi
         switch(segue.identifier ?? "") {
             
+            //
         case "AddItem":
             os_log("Adding a new meal.", log: OSLog.default, type: .debug)
             
@@ -132,18 +120,60 @@ class MealTableViewController: UITableViewController {
             }
             
             guard let selectedMealCell = sender as? MealTableViewCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(sender!)")
             }
             
-            guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
-                fatalError("The selected cell is not being displayed by the table")
+            if let indexPath = tableView.indexPath(for: selectedMealCell){
+                if let index = meals.index(of: filteredData[indexPath.row]) {
+                    mealDetailViewController.meal = meals[index]
+                }
             }
-            
-            let selectedMeal = meals[indexPath.row]
-            mealDetailViewController.meal = selectedMeal
-            
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+        }
+    }
+    
+    
+    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? MealViewController, let _ = sourceViewController.meal {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                if let index = meals.index(of: filteredData[selectedIndexPath.row]) {
+                    // cap nhat bua an hien co
+                    meals[index] = sourceViewController.meal!
+                    filteredData = meals
+                    tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                    
+                }
+            } else {
+                
+                meals.append(sourceViewController.meal!)
+                filteredData = meals
+               
+            }
+            saveMeals()
+            tableView.reloadData()
+        }
+    }
+    
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    
+    
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            if let index = meals.index(of: filteredData[indexPath.row]) {
+                meals.remove(at: index)
+            }
+            filteredData.remove(at: indexPath.row)
+            saveMeals()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        default:
+            print("Delete")
         }
     }
     
@@ -160,23 +190,7 @@ class MealTableViewController: UITableViewController {
     private func loadMeals() -> [Meal]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Meal.ArchiveURL.path) as? [Meal]
     }
+    
 }
 
 
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-/*
- // Override to support rearranging the table view.
- override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
- 
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
- // Return false if you do not want the item to be re-orderable.
- return true
- }
- */

@@ -67,7 +67,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IrA-IZ-aia" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="322.5" y="25.35211267605634"/>
+            <point key="canvasLocation" x="444" y="-15"/>
         </scene>
         <!--Meal View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -78,7 +78,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YGd-zj-KJI">
-                                <rect key="frame" x="16" y="40" width="304" height="432"/>
+                                <rect key="frame" x="16" y="84" width="304" height="432"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter meal name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lex-SZ-3EM">
                                         <rect key="frame" x="0.0" y="0.0" width="304" height="30"/>
@@ -95,7 +95,7 @@
                                             <action selector="setDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4sK-ES-UC1"/>
                                         </connections>
                                     </button>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultPhoto-1" translatesAutoresizingMaskIntoConstraints="NO" id="qcE-FB-BAd">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="304" image="defaultPhoto-1" translatesAutoresizingMaskIntoConstraints="NO" id="qcE-FB-BAd">
                                         <rect key="frame" x="0.0" y="76" width="304" height="304"/>
                                         <gestureRecognizers/>
                                         <constraints>
@@ -151,7 +151,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1689" y="25"/>
+            <point key="canvasLocation" x="2049" y="-16"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vKF-br-lqd">
@@ -175,6 +175,7 @@
         <scene sceneID="Dj6-Xa-2iU">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dJh-yC-cMU" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="czm-EO-lU8">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -187,13 +188,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Po-Sa-rG0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1236" y="-699"/>
+            <point key="canvasLocation" x="1256" y="-552"/>
         </scene>
     </scenes>
     <resources>
         <image name="defaultPhoto-1" width="540" height="540"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W9U-fC-2vc"/>
+        <segue reference="H6h-om-52h"/>
     </inferredMetricsTieBreakers>
 </document>
