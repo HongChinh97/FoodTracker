@@ -11,8 +11,6 @@ import os.log
 
 class MealTableViewController: UITableViewController, UISearchResultsUpdating {
     
-    
-    
     var meals = [Meal]()
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -30,31 +28,15 @@ class MealTableViewController: UITableViewController, UISearchResultsUpdating {
         //Sử dụng mục nút chỉnh sửa do bộ điều khiển xem bảng cung cấp.
         navigationItem.leftBarButtonItem = editButtonItem
         
-        if let savedMeals = loadMeals() {
+        if let savedMeals = DataService.shared.loadMeals() {
             meals += savedMeals
         }
         else {
-            loadSampleMeals()
+           DataService.shared.loadSampleMeals()
+            
         }
         filteredData = meals
         
-    }
-    
-    
-    private func loadSampleMeals() {
-        let photo1 = UIImage(named: "meal1")
-        let photo2 = UIImage(named: "meal2")
-        let photo3 = UIImage(named: "meal3")
-        guard let meal1 = Meal(name: "Caprese Salad", photo: photo1, rating: 4) else {
-            fatalError("Unable to instantiate meal1")
-        }
-        guard let meal2 = Meal(name: "Chicken and Potatoes", photo: photo2, rating: 5) else {
-            fatalError("Unable to instantiate meal2")
-        }
-        guard let meal3 = Meal(name: "Pasta with Meatballs", photo: photo3, rating: 3) else {
-            fatalError("Unable to instantiate meal3")
-        }
-        meals += [meal1, meal2, meal3]
     }
     
 
@@ -150,7 +132,7 @@ class MealTableViewController: UITableViewController, UISearchResultsUpdating {
                 filteredData = meals
                
             }
-            saveMeals()
+            DataService.shared.saveMeals()
             tableView.reloadData()
         }
     }
@@ -170,26 +152,14 @@ class MealTableViewController: UITableViewController, UISearchResultsUpdating {
                 meals.remove(at: index)
             }
             filteredData.remove(at: indexPath.row)
-            saveMeals()
+            DataService.shared.saveMeals()
             tableView.deleteRows(at: [indexPath], with: .fade)
         default:
             print("Delete")
         }
     }
     
-    private func saveMeals() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(meals, toFile: Meal.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save meals...", log: OSLog.default, type: .error)
-        }
-        
-    }
-    
-    private func loadMeals() -> [Meal]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Meal.ArchiveURL.path) as? [Meal]
-    }
+
     
 }
 

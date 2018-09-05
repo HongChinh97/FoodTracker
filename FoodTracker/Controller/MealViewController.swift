@@ -10,21 +10,22 @@ import UIKit
 import os.log
 //viewController có thể làm việc như 1 uỷ nhiệm trường văn bản hợp lệ khi thêm UITextFieldelegate
 class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    
-    
-    @IBOutlet weak var photoImageView: UIImageView!
-    
-   
-    
-    @IBOutlet weak var nameTextField: UITextField!
-    
-    @IBOutlet weak var ratingControl: RatingControl!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    
+    var meals = [Meal]()
     var meal: Meal?
     
+    @IBOutlet weak var photoImageView: UIImageView!
+
+    @IBOutlet weak var nameTextField: UITextField!
+
+
+
+
+    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+
+
     @IBAction func setDefaultLabelText(_ sender: UIButton) {
-       
+
     }
     
     override func viewDidLoad() {
@@ -85,6 +86,7 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         imagePickerCntroller.delegate = self
         present(imagePickerCntroller, animated: true, completion: nil)
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         //Loại bỏ bộ chọn nếu người dùng đã hủy.
         dismiss(animated: true, completion: nil)

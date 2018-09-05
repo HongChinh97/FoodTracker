@@ -92,7 +92,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="setDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4sK-ES-UC1"/>
+                                            <action selector="setDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vdk-Lw-TL0"/>
                                         </connections>
                                     </button>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="304" image="defaultPhoto-1" translatesAutoresizingMaskIntoConstraints="NO" id="qcE-FB-BAd">
@@ -127,7 +127,7 @@
                     <navigationItem key="navigationItem" id="wu9-y0-bx5">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="6tL-Qz-QS9">
                             <connections>
-                                <action selector="cancel:" destination="BYZ-38-t0r" id="hci-Z2-VGd"/>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="cXn-BC-pVh"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="AT3-zy-tmi">
@@ -137,17 +137,17 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="nameTextField" destination="Lex-SZ-3EM" id="WvT-du-KLN"/>
-                        <outlet property="photoImageView" destination="qcE-FB-BAd" id="hdO-Bj-AXZ"/>
-                        <outlet property="ratingControl" destination="aIV-Hm-yLz" id="kvT-hp-ELl"/>
-                        <outlet property="saveButton" destination="AT3-zy-tmi" id="QV6-zT-djp"/>
+                        <outlet property="nameTextField" destination="Lex-SZ-3EM" id="2PR-cH-Lst"/>
+                        <outlet property="photoImageView" destination="qcE-FB-BAd" id="eVk-Be-D7h"/>
+                        <outlet property="ratingControl" destination="aIV-Hm-yLz" id="JAi-ni-veZ"/>
+                        <outlet property="saveButton" destination="AT3-zy-tmi" id="pVa-x4-qz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="hSd-jP-cYP" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="1R5-iZ-ZGs">
                     <connections>
-                        <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="frX-sl-fUA"/>
+                        <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="0Ac-yL-Qvu"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
