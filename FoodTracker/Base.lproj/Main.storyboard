@@ -48,7 +48,7 @@
                                     <outlet property="nameLabel" destination="ljV-sx-ppD" id="gug-j9-qCo"/>
                                     <outlet property="photoImageView" destination="X26-bW-jyb" id="CMa-f5-CP7"/>
                                     <outlet property="ratingControl" destination="2Pd-bU-H55" id="nQE-uA-a98"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="AddItem" id="W9U-fC-2vc"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="AddItem" id="W9U-fC-2vc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -78,10 +78,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YGd-zj-KJI">
-                                <rect key="frame" x="16" y="84" width="304" height="432"/>
+                                <rect key="frame" x="16" y="84" width="288" height="416"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter meal name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lex-SZ-3EM">
-                                        <rect key="frame" x="0.0" y="0.0" width="304" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -96,7 +96,7 @@
                                         </connections>
                                     </button>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="304" image="defaultPhoto-1" translatesAutoresizingMaskIntoConstraints="NO" id="qcE-FB-BAd">
-                                        <rect key="frame" x="0.0" y="76" width="304" height="304"/>
+                                        <rect key="frame" x="0.0" y="76" width="288" height="288"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="qcE-FB-BAd" secondAttribute="height" multiplier="1:1" id="gXK-sL-w12"/>
@@ -105,8 +105,8 @@
                                             <outletCollection property="gestureRecognizers" destination="1R5-iZ-ZGs" appends="YES" id="PbP-Ip-Z4a"/>
                                         </connections>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aIV-Hm-yLz" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="388" width="252" height="44"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aIV-Hm-yLz" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="372" width="252" height="44"/>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -118,7 +118,7 @@
                         <color key="backgroundColor" red="0.9858502791" green="0.97763333500000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.9858502791" green="0.97763333500000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YGd-zj-KJI" secondAttribute="trailing" id="7Dp-CG-CLx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YGd-zj-KJI" secondAttribute="trailing" constant="16" id="7Dp-CG-CLx"/>
                             <constraint firstItem="YGd-zj-KJI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="FTr-cR-5Hw"/>
                             <constraint firstItem="YGd-zj-KJI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="H57-bU-DvX"/>
                         </constraints>
@@ -132,7 +132,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="AT3-zy-tmi">
                             <connections>
-                                <segue destination="hSd-jP-cYP" kind="unwind" unwindAction="unwindToMealListWithSender:" id="WCt-X0-iwm"/>
+                                <action selector="saveMeal:" destination="BYZ-38-t0r" id="YxR-fE-HG4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -144,7 +144,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <exit id="hSd-jP-cYP" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="1R5-iZ-ZGs">
                     <connections>
                         <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="0Ac-yL-Qvu"/>
@@ -169,7 +168,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaI-i5-22y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-401" y="26"/>
+            <point key="canvasLocation" x="-366" y="-17"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Dj6-Xa-2iU">
@@ -195,6 +194,6 @@
         <image name="defaultPhoto-1" width="540" height="540"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="H6h-om-52h"/>
+        <segue reference="W9U-fC-2vc"/>
     </inferredMetricsTieBreakers>
 </document>

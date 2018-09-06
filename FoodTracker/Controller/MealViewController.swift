@@ -8,24 +8,17 @@
 
 import UIKit
 import os.log
-//viewController có thể làm việc như 1 uỷ nhiệm trường văn bản hợp lệ khi thêm UITextFieldelegate
+//viewController có thể làm việc như 1 uỷ nhiệm trường văn bản hợp lệ khi thêm UITextFieldDelegate
 class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     var meals = [Meal]()
-    var meal: Meal?
+    
+    var index: Int?
     
     @IBOutlet weak var photoImageView: UIImageView!
-
     @IBOutlet weak var nameTextField: UITextField!
-
-
-
-
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-
-
     @IBAction func setDefaultLabelText(_ sender: UIButton) {
-
     }
     
     override func viewDidLoad() {
@@ -33,12 +26,12 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         //tự đề cập tới lớp ViewController
         nameTextField.delegate = self
         
-       
-        if let meal = meal {
-            navigationItem.title = meal.name
-            nameTextField.text = meal.name
-            photoImageView.image = meal.photo
-            ratingControl.rating = meal.rating
+       //khi lay duoc vi tri index truyen sang thi co the lay duoc du lieu tu vi tri do
+        if let indexPath = index {
+            navigationItem.title = DataService.shared.meals[indexPath].name
+            nameTextField.text = DataService.shared.meals[indexPath].name
+            photoImageView.image = DataService.shared.meals[indexPath].photo
+            ratingControl.rating = DataService.shared.meals[indexPath].rating
         }
 
         //cập nhật lại nút save
@@ -60,22 +53,31 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         saveButton.isEnabled = false
         updateSaveButtonState()
         navigationItem.title = textField.text
+    }
     
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        super.prepare(for: segue, sender: sender)
-        
-        // Configure the destination view controller only when the save button is pressed.
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
-            return
+    @IBAction func saveMeal(_ sender: UIBarButtonItem) {
+        guard let meal = Meal(name: nameTextField.text ?? "", photo: photoImageView.image, rating: ratingControl.rating) else { return }
+        if let index = index {
+            DataService.shared.editMeals(index: index, meal: meal)
+        } else {
+            DataService.shared.addMeals(meal: meal)
         }
-        let name = nameTextField.text ?? ""
-        let photo = photoImageView.image
-        let rating = ratingControl.rating
-        meal = Meal(name: name, photo: photo, rating: rating)
+        exitToRootView()
     }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//        super.prepare(for: segue, sender: sender)
+//
+//        // Configure the destination view controller only when the save button is pressed.
+//        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+//            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+//            return
+//        }
+//        let name = nameTextField.text ?? ""
+//        let photo = photoImageView.image
+//        let rating = ratingControl.rating
+//        meal = Meal(name: name, photo: photo, rating: rating)
+//    }
 
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         //ẩn bàn phím
@@ -93,6 +95,10 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
+        exitToRootView()
+    }
+    
+    func exitToRootView() {
         let isPresentingInAddMealMode = presentingViewController is UINavigationController
         if isPresentingInAddMealMode {
             dismiss(animated: true, completion: nil)

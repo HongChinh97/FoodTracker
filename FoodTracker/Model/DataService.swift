@@ -9,12 +9,13 @@
 import UIKit
 import os.log
 class DataService: NSObject {
+    
     static let shared: DataService = DataService()
     private var _meals : [Meal]?
     var meals: [Meal] {
         get {
             if _meals == nil {
-                loadSampleMeals()
+                loadMeal()
             }
             return _meals ?? []
         }
@@ -24,25 +25,29 @@ class DataService: NSObject {
         
         
     }
-    
+    func loadMeal() {
+        if let saveMeals = loadMeals() {
+            _meals = saveMeals
+        } else {
+            loadSampleMeals()
+        }
+    }
     func loadSampleMeals() {
-        let photo1 = UIImage(named: "meal1")
-        let photo2 = UIImage(named: "meal2")
-        let photo3 = UIImage(named: "meal3")
-        guard let meal1 = Meal(name: "Caprese Salad", photo: photo1, rating: 4) else {
+
+        guard let meal1 = Meal(name: "Caprese Salad", photo: #imageLiteral(resourceName: "meal1"), rating: 4) else {
             fatalError("Unable to instantiate meal1")
         }
-        guard let meal2 = Meal(name: "Chicken and Potatoes", photo: photo2, rating: 5) else {
+        guard let meal2 = Meal(name: "Chicken and Potatoes", photo: #imageLiteral(resourceName: "meal2"), rating: 5) else {
             fatalError("Unable to instantiate meal2")
         }
-        guard let meal3 = Meal(name: "Pasta with Meatballs", photo: photo3, rating: 3) else {
+        guard let meal3 = Meal(name: "Pasta with Meatballs", photo: #imageLiteral(resourceName: "meal3"), rating: 3) else {
             fatalError("Unable to instantiate meal3")
         }
         _meals = [meal1, meal2, meal3]
     }
     
-   func saveMeals() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(meals, toFile: Meal.ArchiveURL.path)
+   private func saveMeals() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject( _meals!, toFile: Meal.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
         } else {
@@ -55,4 +60,16 @@ class DataService: NSObject {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Meal.ArchiveURL.path) as? [Meal]
     }
     
+    func editMeals(index: Int, meal: Meal) {
+        _meals?[index] = meal
+        saveMeals()
+    }
+    func addMeals(meal: Meal) {
+        _meals?.append(meal)
+        saveMeals()
+    }
+    func removeMeal(at index: Int) {
+        _meals?.remove(at: index)
+        saveMeals()
+    }
 }
