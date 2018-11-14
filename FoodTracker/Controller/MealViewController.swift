@@ -64,29 +64,16 @@ class MealViewController: UIViewController,UITextFieldDelegate,UIImagePickerCont
         }
         exitToRootView()
     }
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        super.prepare(for: segue, sender: sender)
-//
-//        // Configure the destination view controller only when the save button is pressed.
-//        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-//            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
-//            return
-//        }
-//        let name = nameTextField.text ?? ""
-//        let photo = photoImageView.image
-//        let rating = ratingControl.rating
-//        meal = Meal(name: name, photo: photo, rating: rating)
-//    }
+
 
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         //ẩn bàn phím
         nameTextField.resignFirstResponder()
-        let imagePickerCntroller = UIImagePickerController()
-        imagePickerCntroller.sourceType = .photoLibrary
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
         //cho phép thông báo khi chọn một hình ảnh
-        imagePickerCntroller.delegate = self
-        present(imagePickerCntroller, animated: true, completion: nil)
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

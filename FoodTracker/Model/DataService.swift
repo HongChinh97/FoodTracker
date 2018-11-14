@@ -9,7 +9,6 @@
 import UIKit
 import os.log
 class DataService: NSObject {
-    
     static let shared: DataService = DataService()
     private var _meals : [Meal]?
     var meals: [Meal] {
@@ -22,8 +21,6 @@ class DataService: NSObject {
         set {
             _meals = newValue
         }
-        
-        
     }
     func loadMeal() {
         if let saveMeals = loadMeals() {
@@ -53,7 +50,6 @@ class DataService: NSObject {
         } else {
             os_log("Failed to save meals...", log: OSLog.default, type: .error)
         }
-        
     }
     
     func loadMeals() -> [Meal]? {

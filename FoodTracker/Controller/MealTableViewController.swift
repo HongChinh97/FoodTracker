@@ -81,30 +81,7 @@ class MealTableViewController: UITableViewController, UISearchResultsUpdating {
             }
         }
     }
-    
-    
-//    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
-//        if let sourceViewController = sender.source as? MealViewController,
-//            let _ = sourceViewController.meal {
-//            if let selectedIndexPath = tableView.indexPathForSelectedRow {
-//                if let index = meals.index(of: filteredData[selectedIndexPath.row]) {
-//                    // cap nhat bua an hien co
-//                    meals[index] = sourceViewController.meal!
-//                    filteredData = meals
-//                    tableView.reloadRows(at: [selectedIndexPath], with: .none)
-//
-//                }
-//            } else {
-//
-////                meals.append(sourceViewController.meal!)
-//                filteredData = meals
-//
-//            }
-//            DataService.shared.saveMeals()
-//            tableView.reloadData()
-//        }
-//    }
-    
+   
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
@@ -116,12 +93,6 @@ class MealTableViewController: UITableViewController, UISearchResultsUpdating {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-//            if let index = meals.index(of: filteredData[indexPath.row]) {
-//                meals.remove(at: index)
-//            }
-//            filteredData.remove(at: indexPath.row)
-//            DataService.shared.saveMeals()
-            
                 //lay vi tri index cua mang filteredData
             if let index = DataService.shared.meals.index(of: filteredData[indexPath.row]) {
                 //lay vi tri cua mang du lieu goc
